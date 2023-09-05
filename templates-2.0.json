@@ -12,7 +12,7 @@
       "platform": "linux",
       "logo": "https://github.githubassets.com/images/icons/emoji/unicode/1f388.png",
       "repository": {
-        "url": "https://github.com/boca-utils/templates",
+        "url": "https://github.com/rlaiola/portainer-templates",
         "stackfile": "stacks/boca/docker-compose.yml"
       },
       "env": [
