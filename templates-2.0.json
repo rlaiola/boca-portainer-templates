@@ -2,6 +2,75 @@
   "version": "2",
   "templates": [
     {
+      "type": 3,
+      "title": "BOCA",
+      "description": "BOCA Online Contest Administrator",
+      "note": "Deploys BOCA's full stack (web app + automated online judge + database) behind Traefik's HTTP reverse proxy and load balancer",
+      "categories": [
+        "LMS"
+      ],
+      "platform": "linux",
+      "logo": "https://github.githubassets.com/images/icons/emoji/unicode/1f388.png",
+      "repository": {
+        "url": "https://github.com/boca-utils/templates",
+        "stackfile": "stacks/boca/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "BOCA_COURSE_ID",
+          "label": "Course identifier",
+          "description": "Identifier of the course in which BOCA will be used (e.g., inf15927). It must NOT be empty or undefined when running multiple BOCA instances behind a reverse proxy (e.g., Traefik)."
+        },
+        {
+          "name": "BOCA_ADMIN_USER",
+          "label": "Instructor's username",
+          "description": "Username of the instructor/professor responsible for the course. It must NOT be empty or undefined when running multiple BOCA instances behind a reverse proxy (e.g., Traefik)."
+        },
+        {
+          "name": "BOCA_DB_SUPER_USER",
+          "label": "Database superuser",
+          "description": "Privileged user with full control of the PostgreSQL database server. If not specified, then the default value will be used.",
+          "default": "postgres"
+        },
+        {
+          "name": "BOCA_DB_SUPER_PASSWORD",
+          "label": "Database superuser password",
+          "description": "Superuser password for the PostgreSQL database server. It must NOT be empty or undefined.",
+          "default": "dAm0HAiC"
+        },
+        {
+          "name": "BOCA_DB_USER",
+          "label": "Database user",
+          "description": "Privileged user with full control of BOCA's database. If not specified, then the default value will be used.",
+          "default": "bocauser"
+        },
+        {
+          "name": "BOCA_DB_PASSWORD",
+          "label": "Database user password",
+          "description": "Password of BOCA's database user. If not specified, then the default value will be used.",
+          "default": "dAm0HAiC"
+        },
+        {
+          "name": "BOCA_DB_NAME",
+          "label": "Database name",
+          "description": "Name of BOCA's database. If not specified, then the default value will be used.",
+          "default": "bocadb"
+        },
+        {
+          "name": "BOCA_KEY",
+          "label": "Secret key",
+          "description": "Secret key used to encrypt user credentials in HTTP requests. It must be any random large sequence of characters. If not specified, then the default value will be used.",
+          "default": "GG56KFJtNDBGjJprR6ex"
+        },
+        {
+          "name": "BOCA_PASSWORD",
+          "label": "Administration password",
+          "description": "Initial password for system and admin users. If not specified, the default value will be used. User passwords can be individually updated later on via the web interface.",
+          "default": "boca"
+        }
+      ]
+    },
+    {
       "type": 1,
       "title": "Registry",
       "description": "Docker image registry",
