@@ -228,7 +228,8 @@ services:
                 max-size: 10m
         security_opt:
             - no-new-privileges:true
-        # create a temporary volume with 0B to overcome "Too many unsuccessful logins" restriction 
+        # create a temporary volume with 0B to overcome "Too many unsuccessful
+        # logins" restriction 
         # after 30 login attempts.
         # https://github.com/vrana/adminer/blob/master/adminer/include/auth.inc.php
         # https://github.com/docker/compose/issues/3339
