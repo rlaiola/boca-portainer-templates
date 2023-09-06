@@ -5,6 +5,29 @@
       "type": 3,
       "title": "BOCA",
       "description": "BOCA Online Contest Administrator",
+      "note": "Deploys BOCA's full stack (web app + automated online judge + database).",
+      "categories": [
+        "LMS"
+      ],
+      "platform": "linux",
+      "logo": "https://github.githubassets.com/images/icons/emoji/unicode/1f388.png",
+      "repository": {
+        "url": "https://github.com/rlaiola/portainer-templates",
+        "stackfile": "stacks/boca/docker-compose.slim.yml"
+      },
+      "env": [
+        {
+          "name": "BOCA_HTTP_PORT",
+          "label": "HTTP port",
+          "description": "Host port to expose HTTP port of BOCA (80 if empty)",
+          "default": "80"
+        }
+      ]
+    },
+    {
+      "type": 3,
+      "title": "BOCA (advanced config)",
+      "description": "BOCA Online Contest Administrator with extended configuration options and no reverse proxy",
       "note": "Deploys BOCA's full stack (web app + automated online judge + database) behind Traefik's HTTP reverse proxy and load balancer",
       "categories": [
         "LMS"
@@ -67,6 +90,12 @@
           "label": "Administration password",
           "description": "Initial password for system and admin users. If not specified, the default value will be used. User passwords can be individually updated later on via the web interface.",
           "default": "boca"
+        },
+        {
+          "name": "BOCA_PORT",
+          "label": "External port mapping",
+          "description": "Define the port of BOCA web service on the host machine. If not specified, then the default value (8000) will be used.",
+          "default": "8000"
         }
       ]
     },
