@@ -5,7 +5,7 @@
       "type": 3,
       "title": "BOCA",
       "description": "BOCA Online Contest Administrator",
-      "note": "Deploys BOCA's full stack (web app + automated online judge + database).",
+      "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database.",
       "categories": [
         "LMS"
       ],
