@@ -21,25 +21,23 @@
 
 version: '3.8'
 
+# using extension fields to reduce duplication
+x-env: &db-common
+    # database configuration
+    # privileged boca user
+    BOCA_DB_SUPER_PASSWORD: dAm0HAiC
+    POSTGRES_PASSWORD: dAm0HAiC
+
 services:
 
     # web app
     boca-web:
         # use reference image
         image: ghcr.io/joaofazolo/boca-docker/boca-web:1.2
-        # IMPORTANT: this name MUST be used in traefik's routers service
-        container_name: boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}
         depends_on:
             boca-db:
                 condition: service_healthy
-        # # API v2 Docker Compose file
-        # # https://nickjanetakis.com/blog/docker-tip-78-using-compatibility-mode-to-set-memory-and-cpu-limits
-        # # 25% of CPU time compared to other containers
-        # cpu_shares: 256
-        # # 1G of RAM
-        # mem_limit: 1024m
-        # restart: unless-stopped
-        # API v3 Docker Compose file
+        # docker compose file v3
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:
             resources:
@@ -54,51 +52,16 @@ services:
         logging:
             options:
                 max-size: 10m
-        # Show score for 'Contest' after container has started
+        # show score for 'Contest' after container has started
         # https://unix.stackexchange.com/questions/99350/how-to-insert-text-before-the-first-line-of-a-file
         entrypoint: sh -c "sed -i '1 i\Contest 1' /var/www/boca/src/private/score.sep; /init.sh"
         environment:
-            # database configuration
-            BOCA_DB_HOST: boca-db
-            # unprivileged boca user
-            BOCA_DB_USER: ${BOCA_DB_USER}
-            BOCA_DB_PASSWORD: ${BOCA_DB_PASSWORD}
-            BOCA_DB_NAME: ${BOCA_DB_NAME}
-            # privileged boca user
-            BOCA_DB_SUPER_USER: ${BOCA_DB_SUPER_USER}
-            BOCA_DB_SUPER_PASSWORD: ${BOCA_DB_SUPER_PASSWORD}
-            # initial password that is used by the admin user (web app)
-            # If not set, the default value is 'boca'
-            BOCA_PASSWORD: ${BOCA_PASSWORD}
-            # secret key to be used in HTTP headers
-            # MUST set it with any random large enough sequence
-            BOCA_KEY: ${BOCA_KEY}
+            <<: *db-common
         networks:
             - frontend
             - backend
-        ##############################################################
-        # Uncomment if NOT using a reverse proxy (e.g., traefik)
-        ##############################################################
-        # ports:
-        #     - "${BOCA_HTTP_PORT:-8000}:80"
-        ##############################################################
-        # Uncomment if running behind a reverse proxy (e.g., traefik)
-        ##############################################################
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.entrypoints=http"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.rule=Host(`${BOCA_COURSE_ID}.disciplinas.${BOCA_ADMIN_USER}.inf.ufes.br`) && PathPrefix(`/boca`)"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.priority=1"
-            - "traefik.http.middlewares.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-https-redirect.redirectscheme.scheme=https"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.middlewares=boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-https-redirect"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.entrypoints=https"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.rule=Host(`${BOCA_COURSE_ID}.disciplinas.${BOCA_ADMIN_USER}.inf.ufes.br`) && PathPrefix(`/boca`)"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.priority=1"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.tls=true"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.tls.certresolver=http"
-            - "traefik.http.routers.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.service=boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}"
-            - "traefik.http.services.boca-web-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.loadbalancer.server.port=80"
-            - "traefik.docker.network=traefik-proxy"
+        ports:
+            - "${BOCA_HTTP_PORT:-80}:80"
 
     # automated online judge (jail)
     boca-jail:
@@ -108,14 +71,7 @@ services:
         depends_on:
             boca-db:
                 condition: service_healthy
-        # # API v2 Docker Compose file
-        # # https://nickjanetakis.com/blog/docker-tip-78-using-compatibility-mode-to-set-memory-and-cpu-limits
-        # # 25% of CPU time compared to other containers
-        # cpu_shares: 256
-        # # 1G of RAM
-        # mem_limit: 1024m
-        # restart: unless-stopped
-        # API v3 Docker Compose file
+        # docker compose file v3
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:
             resources:
@@ -130,15 +86,6 @@ services:
         logging:
             options:
                 max-size: 10m
-        environment:
-            # database configuration
-            BOCA_DB_HOST: boca-db
-            # unprivileged boca user
-            BOCA_DB_USER: ${BOCA_DB_USER}
-            BOCA_DB_PASSWORD: ${BOCA_DB_PASSWORD}
-            BOCA_DB_NAME: ${BOCA_DB_NAME}
-            # web app
-            BOCA_WEB_HOST: boca-web
         networks:
             - backend
 
@@ -146,14 +93,7 @@ services:
     boca-db:
         # use reference image
         image: postgres:14-alpine
-        # # API v2 Docker Compose file
-        # # https://nickjanetakis.com/blog/docker-tip-78-using-compatibility-mode-to-set-memory-and-cpu-limits
-        # # 25% of CPU time compared to other containers
-        # cpu_shares: 256
-        # # 1G of RAM
-        # mem_limit: 1024m
-        # restart: unless-stopped
-        # API v3 Docker Compose file
+        # docker compose file v3
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:
             resources:
@@ -169,10 +109,7 @@ services:
             options:
                 max-size: 10m
         environment:
-            # Database configuration
-            # privileged boca user
-            POSTGRES_USER: ${BOCA_DB_SUPER_USER}
-            POSTGRES_PASSWORD: ${BOCA_DB_SUPER_PASSWORD}
+            <<: *db-common
             # this optional variable can be used to define another location -
             # like a subdirectory - for the database files. The default is
             # /var/lib/postgresql/data. If the data volume you're using is a
@@ -196,75 +133,6 @@ services:
             timeout: 5s         # timeout for each health checking
             retries: 20         # how many times retries
             start_period: 10s   # estimated time to boot
-
-    # Adminer: full-featured database management tool written in PHP
-    # this container might be useful to manage databases of interest
-    adminer:
-        # use reference image
-        image: adminer
-        # IMPORTANT: this name MUST be used in traefik's routers service
-        container_name: boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}
-        # # API v2 Docker Compose file
-        # # https://nickjanetakis.com/blog/docker-tip-78-using-compatibility-mode-to-set-memory-and-cpu-limits
-        # # 25% of CPU time compared to other containers
-        # cpu_shares: 256
-        # # 1G of RAM
-        # mem_limit: 1024m
-        # restart: unless-stopped
-        # API v3 Docker Compose file
-        # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
-        deploy:
-            resources:
-                limits:
-                    cpus: '0.50'
-                    memory: 1024M
-                reservations:
-                    cpus: '0.25'
-                    memory: 512M
-            restart_policy:
-                condition: on-failure
-        logging:
-            options:
-                max-size: 10m
-        security_opt:
-            - no-new-privileges:true
-        # create a temporary volume with 0B to overcome "Too many unsuccessful
-        # logins" restriction 
-        # after 30 login attempts.
-        # https://github.com/vrana/adminer/blob/master/adminer/include/auth.inc.php
-        # https://github.com/docker/compose/issues/3339
-        tmpfs:
-            - /tmp/adminer.invalid:size=0m
-        environment:
-            - ADMINER_DEFAULT_SERVER=boca-db
-        networks:
-            # WARNING: use with cation and provisionally if necessary to access
-            # the database directly.
-            # - frontend
-            - backend
-        ##############################################################
-        # Uncomment if NOT using a reverse proxy (e.g., traefik)
-        ##############################################################
-        # ports:
-        #     - "${ADMINER_HTTP_PORT:-8080}:8080"
-        ##############################################################
-        # Uncomment if running behind a reverse proxy (e.g., traefik)
-        ##############################################################
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.entrypoints=http"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.rule=Host(`${BOCA_COURSE_ID}.disciplinas.${BOCA_ADMIN_USER}.inf.ufes.br`) && PathPrefix(`/boca/adminer`)"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.priority=2"
-            - "traefik.http.middlewares.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-https-redirect.redirectscheme.scheme=https"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.middlewares=boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-https-redirect"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.entrypoints=https"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.rule=Host(`${BOCA_COURSE_ID}.disciplinas.${BOCA_ADMIN_USER}.inf.ufes.br`) && PathPrefix(`/boca/adminer`)"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.priority=2"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.tls=true"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.tls.certresolver=http"
-            - "traefik.http.routers.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}-secure.service=boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}"
-            - "traefik.http.services.boca-adminer-${BOCA_COURSE_ID}-${BOCA_ADMIN_USER}.loadbalancer.server.port=8080"
-            - "traefik.docker.network=traefik-proxy"
 
 volumes:
 
@@ -290,11 +158,6 @@ networks:
     # it is necessary to attach it to the network of stack of interest
     frontend: # visible to proxy
         driver: bridge
-        ##############################################################
-        # Uncomment if running behind a reverse proxy (e.g., traefik)
-        ##############################################################
-        name: traefik-proxy
-        external: true
     backend:  # hidden from the outside world
         driver: bridge
         internal: true
