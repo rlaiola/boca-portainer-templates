@@ -49,18 +49,18 @@ services:
             # database configuration
             BOCA_DB_HOST: boca-db
             # unprivileged boca user
-            BOCA_DB_USER: "${BOCA_DB_USER:-bocauser}:bocauser"
-            BOCA_DB_PASSWORD: "${BOCA_DB_PASSWORD:-dAm0HAiC}:dAm0HAiC"
-            BOCA_DB_NAME: "${BOCA_DB_NAME:-bocadb}:bocadb"
+            BOCA_DB_USER: ${BOCA_DB_USER:-bocauser}
+            BOCA_DB_PASSWORD: ${BOCA_DB_PASSWORD:-dAm0HAiC}
+            BOCA_DB_NAME: ${BOCA_DB_NAME:-bocadb}
             # privileged boca user
-            BOCA_DB_SUPER_USER: "${BOCA_DB_SUPER_USER:-postgres}:postgres"
-            BOCA_DB_SUPER_PASSWORD: "${BOCA_DB_SUPER_PASSWORD:-dAm0HAiC}:dAm0HAiC"
+            BOCA_DB_SUPER_USER: ${BOCA_DB_SUPER_USER:-postgres}
+            BOCA_DB_SUPER_PASSWORD: ${BOCA_DB_SUPER_PASSWORD:-dAm0HAiC}
             # initial password that is used by the admin user (web app)
             # If not set, the default value is 'boca'
-            BOCA_PASSWORD: "${BOCA_PASSWORD:-boca}:boca"
+            BOCA_PASSWORD: ${BOCA_PASSWORD:-boca}
             # secret key to be used in HTTP headers
             # MUST set it with any random large enough sequence
-            BOCA_KEY: "${BOCA_KEY:-GG56KFJtNDBGjJprR6ex}:GG56KFJtNDBGjJprR6ex"
+            BOCA_KEY: ${BOCA_KEY:-GG56KFJtNDBGjJprR6ex}
         networks:
             - frontend
             - backend
@@ -98,9 +98,9 @@ services:
             # database configuration
             BOCA_DB_HOST: boca-db
             # unprivileged boca user
-            BOCA_DB_USER: "${BOCA_DB_USER:-bocauser}:bocauser"
-            BOCA_DB_PASSWORD: "${BOCA_DB_PASSWORD:-dAm0HAiC}:dAm0HAiC"
-            BOCA_DB_NAME: "${BOCA_DB_NAME:-bocadb}:bocadb"
+            BOCA_DB_USER: ${BOCA_DB_USER:-bocauser}
+            BOCA_DB_PASSWORD: ${BOCA_DB_PASSWORD:-dAm0HAiC}
+            BOCA_DB_NAME: ${BOCA_DB_NAME:-bocadb}
             # web app
             BOCA_WEB_HOST: boca-web
         networks:
@@ -128,8 +128,8 @@ services:
         environment:
             # Database configuration
             # privileged boca user
-            POSTGRES_USER: "${BOCA_DB_SUPER_USER:-postgres}:postgres"
-            POSTGRES_PASSWORD: "${BOCA_DB_SUPER_PASSWORD:-dAm0HAiC}:dAm0HAiC"
+            POSTGRES_USER: ${BOCA_DB_SUPER_USER:-postgres}
+            POSTGRES_PASSWORD: ${BOCA_DB_SUPER_PASSWORD:-dAm0HAiC}
             # this optional variable can be used to define another location -
             # like a subdirectory - for the database files. The default is
             # /var/lib/postgresql/data. If the data volume you're using is a
