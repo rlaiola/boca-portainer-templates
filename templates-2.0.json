@@ -48,7 +48,7 @@
         {
           "name": "BOCA_DB_SUPER_PASSWORD",
           "label": "Database superuser password",
-          "description": "Superuser password for the PostgreSQL database server. It must NOT be empty or undefined.",
+          "description": "Superuser password for the PostgreSQL database server. If not specified, then the default value will be used.",
           "default": "dAm0HAiC"
         },
         {
