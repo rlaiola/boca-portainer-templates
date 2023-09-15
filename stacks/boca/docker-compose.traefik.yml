@@ -67,7 +67,7 @@ services:
             - "traefik.http.middlewares.boca-web-${BOCA_TRAEFIK_UID}-https-redirect.redirectscheme.scheme=https"
             - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.middlewares=boca-web-${BOCA_TRAEFIK_UID}-https-redirect"
             - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.entrypoints=https"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.rule=Host(`${BOCA_SUBDOMAIN.:-}.${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.rule=Host(`${BOCA_SUBDOMAIN:-}.${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
             - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.priority=1"
             - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.tls=true"
             - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.tls.certresolver=http"
