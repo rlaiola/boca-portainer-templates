@@ -61,18 +61,18 @@ services:
             - backend
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.entrypoints=http"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.rule=Host(`${BOCA_SUBDOMAIN:-}${BOCA_SUBDOMAIN:+.}${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.priority=1"
-            - "traefik.http.middlewares.boca-web-${BOCA_TRAEFIK_UID}-https-redirect.redirectscheme.scheme=https"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.middlewares=boca-web-${BOCA_TRAEFIK_UID}-https-redirect"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.entrypoints=https"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.rule=Host(`${BOCA_SUBDOMAIN:-}${BOCA_SUBDOMAIN:+.}${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.priority=1"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.tls=true"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.tls.certresolver=http"
-            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.service=boca-web-${BOCA_TRAEFIK_UID}"
-            - "traefik.http.services.boca-web-${BOCA_TRAEFIK_UID}.loadbalancer.server.port=80"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}.entrypoints=http"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}.rule=Host(`${BOCA_SUBDOMAIN:-}${BOCA_SUBDOMAIN:+.}${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}.priority=1"
+            - "traefik.http.middlewares.boca-web-${BOCA_TRAEFIK_UID:?error}-https-redirect.redirectscheme.scheme=https"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}.middlewares=boca-web-${BOCA_TRAEFIK_UID:?error}-https-redirect"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.entrypoints=https"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.rule=Host(`${BOCA_SUBDOMAIN:-}${BOCA_SUBDOMAIN:+.}${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.priority=1"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.tls=true"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.tls.certresolver=http"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.service=boca-web-${BOCA_TRAEFIK_UID:?error}"
+            - "traefik.http.services.boca-web-${BOCA_TRAEFIK_UID:?error}.loadbalancer.server.port=80"
             - "traefik.docker.network=traefik-proxy"
 
     # automated online judge (jail)
@@ -174,8 +174,8 @@ networks:
     # it is necessary to attach it to the network of stack of interest
     frontend: # visible to proxy
         driver: bridge
-        name: ${BOCA_PROXY_NETWORK:?error}
-        external: true
+        external:
+            name: ${BOCA_PROXY_NETWORK:?error}
     backend:  # hidden from the outside world
         driver: bridge
         internal: true
