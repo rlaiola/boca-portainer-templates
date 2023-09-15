@@ -107,25 +107,25 @@
         {
           "name": "BOCA_TRAEFIK_UID",
           "label": "UID",
-          "description": "A unique identifying number (UID) consisting of numeric or alphanumeric characters that is associated with this BOCA instance within Portainer. It is used by Traefik's routers service and must NOT be empty or undefined.",
+          "description": "A unique identifying number (UID) consisting of numeric or alphanumeric characters that will be associated with this BOCA instance within Portainer. It is used by Traefik's routers service and must NOT be empty or undefined.",
           "default": ""
         },
         {
           "name": "BOCA_SUBDOMAIN",
           "label": "Subdomain",
-          "description": "The part that comes before the base domain (e.g., inf15927.courses.rlaiola in inf15927.courses.rlaiola.inf.ufes.br). Default to none.",
+          "description": "The part that comes before the base domain (e.g., inf15927.courses in https://inf15927.courses.inf.ufes.br). Default to none.",
           "default": ""
         },
         {
           "name": "BOCA_BASE_DOMAIN",
           "label": "Base domain",
-          "description": "Consists of the domain name and the tld (e.g., inf.ufes.br in inf15927.courses.rlaiola.inf.ufes.br). Default to localhost.",
+          "description": "Consists of the domain name and the TLD (e.g., inf.ufes.br in https://inf15927.courses.inf.ufes.br). Default to localhost.",
           "default": "localhost"
         },
         {
           "name": "BOCA_PROXY_NETWORK",
           "label": "Proxy network",
-          "description": "Name of the existing Docker network that the Traefik shares with containers. It must NOT be empty or undefined.",
+          "description": "Name of the existing Docker network that Traefik shares with containers. It must NOT be empty or undefined.",
           "default": ""
         }
       ]
