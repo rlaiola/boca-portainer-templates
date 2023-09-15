@@ -91,7 +91,7 @@
     },
     {
       "type": 3,
-      "title": "BOCA (Trafik)",
+      "title": "BOCA (w/ Trafik)",
       "description": "BOCA Online Contest Administrator",
       "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database running behind Traefik's HTTP reverse proxy and load balancer.",
       "categories": [
@@ -121,6 +121,12 @@
           "label": "Base domain",
           "description": "Consists of the domain name and the tld (e.g., inf.ufes.br in inf15927.courses.rlaiola.inf.ufes.br). Default to localhost.",
           "default": "localhost"
+        },
+        {
+          "name": "BOCA_PROXY_NETWORK",
+          "label": "Proxy network",
+          "description": "Name of the existing Docker network that the Traefik shares with containers. It must NOT be empty or undefined.",
+          "default": ""
         }
       ]
     },
