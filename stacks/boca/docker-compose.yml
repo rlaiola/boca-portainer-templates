@@ -32,12 +32,12 @@ services:
 
     # web app
     boca-web:
-        # use reference image
+        # reference image
         image: ghcr.io/joaofazolo/boca-docker/boca-web:1.2
         depends_on:
             boca-db:
                 condition: service_healthy
-        # docker compose file v3
+        # api v3 Docker Compose file
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:
             resources:
@@ -62,15 +62,19 @@ services:
 
     # automated online judge (jail)
     boca-jail:
-        # use reference image
+        # reference image
         image: ghcr.io/joaofazolo/boca-docker/boca-jail:1.2
         privileged: true
         depends_on:
             boca-db:
                 condition: service_healthy
-        # docker compose file v3
+        # api v3 Docker Compose file
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                max_replicas_per_node: 4
             resources:
                 limits:
                     cpus: '0.50'
@@ -88,9 +92,9 @@ services:
 
     # database
     boca-db:
-        # use reference image
+        # reference image
         image: postgres:14-alpine
-        # docker compose file v3
+        # api v3 Docker Compose file
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:
             resources:
