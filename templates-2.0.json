@@ -5,7 +5,7 @@
       "type": 3,
       "title": "BOCA",
       "description": "BOCA Online Contest Administrator",
-      "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database.<br/>NOTE: In this template BOCA HTTP port is mapped directly to the host port.",
+      "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database. NOTE: The HTTP port of BOCA is mapped directly to the host port.",
       "categories": [
         "LMS"
       ],
