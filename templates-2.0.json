@@ -91,7 +91,42 @@
     },
     {
       "type": 3,
-      "title": "BOCA (advanced)",
+      "title": "BOCA (Trafik)",
+      "description": "BOCA Online Contest Administrator",
+      "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database running behind Traefik's HTTP reverse proxy and load balancer.",
+      "categories": [
+        "LMS"
+      ],
+      "platform": "linux",
+      "logo": "https://github.githubassets.com/images/icons/emoji/unicode/1f388.png",
+      "repository": {
+        "url": "https://github.com/rlaiola/portainer-templates",
+        "stackfile": "stacks/boca/docker-compose.traefik.yml"
+      },
+      "env": [
+        {
+          "name": "BOCA_TRAEFIK_UID",
+          "label": "Unique identifying number (UID)",
+          "description": "A unique identifying number (UID) consisting of numeric or alphanumeric characters that is associated with this BOCA instance within Portainer. It is used by Traefik's routers service and must NOT be empty or undefined.",
+          "default": ""
+        },
+        {
+          "name": "BOCA_SUBDOMAIN",
+          "label": "Subdomain",
+          "description": "The part that comes before the base domain (e.g., inf15927.courses.rlaiola in inf15927.courses.rlaiola.inf.ufes.br). Default to none.",
+          "default": ""
+        },
+        {
+          "name": "BOCA_BASE_DOMAIN",
+          "label": "Base domain",
+          "description": "Consists of the domain name and the tld (e.g., inf.ufes.br in inf15927.courses.rlaiola.inf.ufes.br). Default to localhost.",
+          "default": "localhost"
+        }
+      ]
+    },
+    {
+      "type": 3,
+      "title": "BOCA (Trafik)",
       "description": "BOCA Online Contest Administrator with extended configuration options",
       "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database. The HTTP port of BOCA is mapped directly to the host port.",
       "note1": "Deploys BOCA's full stack (web app + automated online judge + database) behind Traefik's HTTP reverse proxy and load balancer",
