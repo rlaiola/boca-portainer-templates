@@ -92,7 +92,7 @@
     {
       "type": 3,
       "title": "BOCA (w/ Trafik)",
-      "description": "BOCA Online Contest Administrator",
+      "description": "BOCA Online Contest Administrator with Traefik reverse proxy",
       "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database running behind Traefik's HTTP reverse proxy and load balancer.",
       "categories": [
         "LMS"
@@ -119,7 +119,7 @@
         {
           "name": "BOCA_BASE_DOMAIN",
           "label": "Base domain",
-          "description": "Consists of the domain name and the TLD (e.g., inf.ufes.br in https://inf15927.courses.inf.ufes.br). Default to localhost.",
+          "description": "Consists of the domain name and TLD (e.g., inf.ufes.br in https://inf15927.courses.inf.ufes.br). Default to localhost.",
           "default": "localhost"
         },
         {
@@ -132,10 +132,9 @@
     },
     {
       "type": 3,
-      "title": "BOCA (Trafik)",
-      "description": "BOCA Online Contest Administrator with extended configuration options",
-      "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database. The HTTP port of BOCA is mapped directly to the host port.",
-      "note1": "Deploys BOCA's full stack (web app + automated online judge + database) behind Traefik's HTTP reverse proxy and load balancer",
+      "title": "BOCA (custom w/ Trafik)",
+      "description": "BOCA Online Contest Administrator with extended configuration options and Traefik reverse proxy",
+      "note": "Deploys a customizable BOCA instance consisting of web app, automated online judge and PostgreSQL database running behind Traefik's HTTP reverse proxy and load balancer.",
       "categories": [
         "LMS"
       ],
@@ -143,19 +142,9 @@
       "logo": "https://github.githubassets.com/images/icons/emoji/unicode/1f388.png",
       "repository": {
         "url": "https://github.com/rlaiola/portainer-templates",
-        "stackfile": "stacks/boca/docker-compose.advanced.yml"
+        "stackfile": "stacks/boca/docker-compose.traefik.custom.yml"
       },
       "env": [
-        {
-          "name": "BOCA_COURSE_ID",
-          "label": "Course identifier",
-          "description": "Identifier of the course in which BOCA will be used (e.g., inf15927). It must NOT be empty or undefined when running multiple BOCA instances behind a reverse proxy (e.g., Traefik)."
-        },
-        {
-          "name": "BOCA_ADMIN_USER",
-          "label": "Instructor's username",
-          "description": "Username of the instructor/professor responsible for the course. It must NOT be empty or undefined when running multiple BOCA instances behind a reverse proxy (e.g., Traefik)."
-        },
         {
           "name": "BOCA_DB_SUPER_USER",
           "label": "Database superuser",
@@ -165,7 +154,7 @@
         {
           "name": "BOCA_DB_SUPER_PASSWORD",
           "label": "Database superuser password",
-          "description": "Superuser password for the PostgreSQL database server. It must NOT be empty or undefined.",
+          "description": "Superuser password for the PostgreSQL database server. If not specified, then the default value will be used.",
           "default": "dAm0HAiC"
         },
         {
@@ -199,10 +188,28 @@
           "default": "boca"
         },
         {
-          "name": "BOCA_PORT",
-          "label": "External port mapping",
-          "description": "Define the port of BOCA web service on the host machine. If not specified, then the default value (8000) will be used.",
-          "default": "8000"
+          "name": "BOCA_TRAEFIK_UID",
+          "label": "UID",
+          "description": "A unique identifying number (UID) consisting of numeric or alphanumeric characters that will be associated with this BOCA instance within Portainer. It is used by Traefik's routers service and must NOT be empty or undefined.",
+          "default": ""
+        },
+        {
+          "name": "BOCA_SUBDOMAIN",
+          "label": "Subdomain",
+          "description": "The part that comes before the base domain (e.g., inf15927.courses in https://inf15927.courses.inf.ufes.br). Default to none.",
+          "default": ""
+        },
+        {
+          "name": "BOCA_BASE_DOMAIN",
+          "label": "Base domain",
+          "description": "Consists of the domain name and TLD (e.g., inf.ufes.br in https://inf15927.courses.inf.ufes.br). Default to localhost.",
+          "default": "localhost"
+        },
+        {
+          "name": "BOCA_PROXY_NETWORK",
+          "label": "Proxy network",
+          "description": "Name of the existing Docker network that Traefik shares with containers. It must NOT be empty or undefined.",
+          "default": ""
         }
       ]
     },
