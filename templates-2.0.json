@@ -19,16 +19,16 @@
         {
           "name": "BOCA_HTTP_PORT",
           "label": "HTTP port",
-          "description": "Host port to expose HTTP port of BOCA (80 if empty)",
+          "description": "Host port to expose HTTP port of BOCA (80 if empty).",
           "default": "80"
         }
       ]
     },
     {
       "type": 3,
-      "title": "BOCA (advanced config)",
-      "description": "BOCA Online Contest Administrator with extended configuration options and no reverse proxy",
-      "note": "Deploys BOCA's full stack (web app + automated online judge + database) behind Traefik's HTTP reverse proxy and load balancer",
+      "title": "BOCA (custom)",
+      "description": "BOCA Online Contest Administrator with extended configuration options",
+      "note": "Deploys a customizable BOCA instance consisting of web app, automated online judge and PostgreSQL database. The HTTP port of BOCA is mapped directly to the host port.",
       "categories": [
         "LMS"
       ],
@@ -36,7 +36,73 @@
       "logo": "https://github.githubassets.com/images/icons/emoji/unicode/1f388.png",
       "repository": {
         "url": "https://github.com/rlaiola/portainer-templates",
-        "stackfile": "stacks/boca/docker-compose.yml"
+        "stackfile": "stacks/boca/docker-compose.custom.yml"
+      },
+      "env": [
+        {
+          "name": "BOCA_DB_SUPER_USER",
+          "label": "Database superuser",
+          "description": "Privileged user with full control of the PostgreSQL database server. If not specified, then the default value will be used.",
+          "default": "postgres"
+        },
+        {
+          "name": "BOCA_DB_SUPER_PASSWORD",
+          "label": "Database superuser password",
+          "description": "Superuser password for the PostgreSQL database server. It must NOT be empty or undefined.",
+          "default": "dAm0HAiC"
+        },
+        {
+          "name": "BOCA_DB_USER",
+          "label": "Database user",
+          "description": "Privileged user with full control of BOCA's database. If not specified, then the default value will be used.",
+          "default": "bocauser"
+        },
+        {
+          "name": "BOCA_DB_PASSWORD",
+          "label": "Database user password",
+          "description": "Password of BOCA's database user. If not specified, then the default value will be used.",
+          "default": "dAm0HAiC"
+        },
+        {
+          "name": "BOCA_DB_NAME",
+          "label": "Database name",
+          "description": "Name of BOCA's database. If not specified, then the default value will be used.",
+          "default": "bocadb"
+        },
+        {
+          "name": "BOCA_KEY",
+          "label": "Secret key",
+          "description": "Secret key used to encrypt user credentials in HTTP requests. It must be any random large sequence of characters. If not specified, then the default value will be used.",
+          "default": "GG56KFJtNDBGjJprR6ex"
+        },
+        {
+          "name": "BOCA_PASSWORD",
+          "label": "Administration password",
+          "description": "Initial password for system and admin users. If not specified, the default value will be used. User passwords can be individually updated later on via the web interface.",
+          "default": "boca"
+        },
+        {
+          "name": "BOCA_HTTP_PORT",
+          "label": "HTTP port",
+          "description": "Host port to expose HTTP port of BOCA (80 if empty).",
+          "default": "80"
+        }
+      ]
+    },
+    {
+      "type": 3,
+      "title": "BOCA (advanced)",
+      "description": "BOCA Online Contest Administrator with extended configuration options",
+      "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database. The HTTP port of BOCA is mapped directly to the host port.",
+      "note1": "Deploys BOCA's full stack (web app + automated online judge + database) behind Traefik's HTTP reverse proxy and load balancer",
+      "categories": [
+        "LMS"
+      ],
+      "platform": "linux",
+      "logo": "https://github.githubassets.com/images/icons/emoji/unicode/1f388.png",
+      "repository": {
+        "url": "https://github.com/rlaiola/portainer-templates",
+        "stackfile": "stacks/boca/docker-compose.advanced.yml"
       },
       "env": [
         {
