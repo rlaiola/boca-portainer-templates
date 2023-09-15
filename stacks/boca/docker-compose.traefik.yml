@@ -1,0 +1,179 @@
+---
+#========================================================================
+# Copyright Universidade Federal do Espirito Santo (Ufes)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# 
+# This program is released under license GNU GPL v3+ license.
+#
+#========================================================================
+
+version: '3.8'
+
+# using extension fields to reduce duplication
+x-env: &db-common
+    # database configuration
+    # privileged boca user
+    BOCA_DB_SUPER_PASSWORD: dAm0HAiC
+    POSTGRES_PASSWORD: dAm0HAiC
+
+services:
+
+    # web app
+    boca-web:
+        # reference image
+        image: ghcr.io/joaofazolo/boca-docker/boca-web:1.2
+        # IMPORTANT: this name MUST be used in traefik's routers service
+        container_name: boca-web-${BOCA_TRAEFIK_UID:?error}
+        depends_on:
+            boca-db:
+                condition: service_healthy
+        # api v3 Docker Compose file
+        # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 1024M
+                reservations:
+                    cpus: '0.25'
+                    memory: 512M
+            restart_policy:
+                condition: on-failure
+        logging:
+            options:
+                max-size: 10m
+        environment:
+            <<: *db-common
+        networks:
+            - frontend
+            - backend
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.entrypoints=http"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.rule=Host(`${BOCA_SUBDOMAIN.:-}${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.priority=1"
+            - "traefik.http.middlewares.boca-web-${BOCA_TRAEFIK_UID}-https-redirect.redirectscheme.scheme=https"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}.middlewares=boca-web-${BOCA_TRAEFIK_UID}-https-redirect"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.entrypoints=https"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.rule=Host(`${BOCA_SUBDOMAIN.:-}${BOCA_BASE_DOMAIN}`) && PathPrefix(`/boca`)"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.priority=1"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.tls=true"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.tls.certresolver=http"
+            - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID}-secure.service=boca-web-${BOCA_TRAEFIK_UID}"
+            - "traefik.http.services.boca-web-${BOCA_TRAEFIK_UID}.loadbalancer.server.port=80"
+            - "traefik.docker.network=traefik-proxy"
+
+    # automated online judge (jail)
+    boca-jail:
+        # reference image
+        image: ghcr.io/joaofazolo/boca-docker/boca-jail:1.2
+        privileged: true
+        depends_on:
+            boca-db:
+                condition: service_healthy
+        # api v3 Docker Compose file
+        # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                max_replicas_per_node: 4
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 1024M
+                reservations:
+                    cpus: '0.25'
+                    memory: 512M
+            restart_policy:
+                condition: on-failure
+        logging:
+            options:
+                max-size: 10m
+        networks:
+            - backend
+
+    # database
+    boca-db:
+        # reference image
+        image: postgres:14-alpine
+        # api v3 Docker Compose file
+        # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 2048M
+                reservations:
+                    cpus: '0.25'
+                    memory: 1024M
+            restart_policy:
+                condition: on-failure
+        logging:
+            options:
+                max-size: 10m
+        environment:
+            <<: *db-common
+            # this optional variable can be used to define another location -
+            # like a subdirectory - for the database files. The default is
+            # /var/lib/postgresql/data. If the data volume you're using is a
+            # filesystem mountpoint (like with GCE persistent disks) or remote
+            # folder that cannot be chowned to the postgres user (like some 
+            # NFS mounts), Postgres initdb recommends a subdirectory be created
+            # to contain the data.
+            PGDATA: /var/lib/postgresql/data/pgdata
+        volumes:
+            # mount host directory to container's FS
+            # https://hub.docker.com/_/postgres
+            # https://stackoverflow.com/questions/41637505/how-to-persist-data-in-a-dockerized-postgres-database-using-volumes
+            # PostgreSQL config, logs and databases are usually stored on Ubuntu
+            - boca-data:/var/lib/postgresql/data
+        networks:
+            - backend
+        healthcheck:
+            # determine whether or not it is healthy
+            test: ["CMD-SHELL", "pg_isready -U ${BOCA_DB_SUPER_USER:-postgres}"]
+            interval: 10s       # interval between health checks
+            timeout: 5s         # timeout for each health checking
+            retries: 20         # how many times retries
+            start_period: 10s   # estimated time to boot
+
+volumes:
+
+    # example 1: when launching boca-docker for the first time Docker will 
+    # create a named volume (boca-data). Onwards every time one brings the
+    # application down and then rerun it `docker compose` will try to create
+    # a volume named `boca-data` but it would notice that a volume with that
+    # name already exists for this compose file. Then it will helpfully mount
+    # the same volume again.
+    boca-data:
+
+    # example 2: conversely, one can create and manage a volume outside of the
+    # docker-compose file. For that, it's necessary to create it first using 
+    # the`docker volume create boca-data` command, declare it in the compose
+    # file under volumes and set the property `external: true`. Then, when 
+    # launching the application Docker will find out if the volume exists; but
+    # if it doesn’t, an error will be reported.
+    # boca-data:
+    #     external: true
+
+networks:
+
+    # it is necessary to attach it to the network of stack of interest
+    frontend: # visible to proxy
+        driver: bridge
+    backend:  # hidden from the outside world
+        driver: bridge
+        internal: true
