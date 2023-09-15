@@ -52,9 +52,6 @@ services:
         logging:
             options:
                 max-size: 10m
-        # show score for 'Contest' after container has started
-        # https://unix.stackexchange.com/questions/99350/how-to-insert-text-before-the-first-line-of-a-file
-        entrypoint: sh -c "sed -i '1 i\Contest 1' /var/www/boca/src/private/score.sep; /init.sh"
         environment:
             <<: *db-common
         networks:
