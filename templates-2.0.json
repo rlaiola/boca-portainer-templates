@@ -106,7 +106,7 @@
       "env": [
         {
           "name": "BOCA_TRAEFIK_UID",
-          "label": "Unique identifying number (UID)",
+          "label": "UID",
           "description": "A unique identifying number (UID) consisting of numeric or alphanumeric characters that is associated with this BOCA instance within Portainer. It is used by Traefik's routers service and must NOT be empty or undefined.",
           "default": ""
         },
