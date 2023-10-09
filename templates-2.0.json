@@ -19,7 +19,7 @@
         {
           "name": "BOCA_HTTP_PORT",
           "label": "HTTP port",
-          "description": "Host port to expose HTTP port of BOCA (80 if empty).",
+          "description": "Host port to expose HTTP port of BOCA (80 if empty). A port on the host machine cannot already be in use by another service.",
           "default": "80"
         }
       ]
@@ -42,19 +42,19 @@
         {
           "name": "BOCA_WEB_IMAGE",
           "label": "boca-web image",
-          "description": "Name of the BOCA web app image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "description": "Name of the BOCA web app image (e.g., myImage:myTag). If not specified, then the default value will be used.",
           "default": "ghcr.io/joaofazolo/boca-docker/boca-web:1.2"
         },
         {
           "name": "BOCA_JAIL_IMAGE",
           "label": "boca-jail image",
-          "description": "Name of the BOCA automated online judge image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "description": "Name of the BOCA automated online judge image (e.g., myImage:myTag). If not specified, then the default value will be used.",
           "default": "ghcr.io/joaofazolo/boca-docker/boca-jail:1.2"
         },
         {
           "name": "BOCA_DB_IMAGE",
           "label": "boca-db image",
-          "description": "Name of the PostgreSQL database image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "description": "Name of the PostgreSQL database image (e.g., myImage:myTag). If not specified, then the default value will be used.",
           "default": "postgres:14-alpine"
         },
         {
@@ -102,14 +102,14 @@
         {
           "name": "BOCA_HTTP_PORT",
           "label": "HTTP port",
-          "description": "Host port to expose HTTP port of BOCA (80 if empty).",
+          "description": "Host port to expose HTTP port of BOCA (80 if empty). A port on the host machine cannot already be in use by another service.",
           "default": "80"
         }
       ]
     },
     {
       "type": 3,
-      "title": "BOCA (w/ Trafik)",
+      "title": "BOCA (w/ Traefik)",
       "description": "BOCA Online Contest Administrator with Traefik reverse proxy",
       "note": "Deploys a BOCA instance consisting of web app, automated online judge and PostgreSQL database running behind Traefik's HTTP reverse proxy and load balancer.",
       "categories": [
@@ -150,7 +150,7 @@
     },
     {
       "type": 3,
-      "title": "BOCA (custom w/ Trafik)",
+      "title": "BOCA (custom w/ Traefik)",
       "description": "BOCA Online Contest Administrator with extended configuration options and Traefik reverse proxy",
       "note": "Deploys a customizable BOCA instance consisting of web app, automated online judge and PostgreSQL database running behind Traefik's HTTP reverse proxy and load balancer.",
       "categories": [
@@ -166,19 +166,19 @@
         {
           "name": "BOCA_WEB_IMAGE",
           "label": "boca-web image",
-          "description": "Name of the BOCA web app image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "description": "Name of the BOCA web app image (e.g., myImage:myTag). If not specified, then the default value will be used.",
           "default": "ghcr.io/joaofazolo/boca-docker/boca-web:1.2"
         },
         {
           "name": "BOCA_JAIL_IMAGE",
           "label": "boca-jail image",
-          "description": "Name of the BOCA automated online judge image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "description": "Name of the BOCA automated online judge image (e.g., myImage:myTag). If not specified, then the default value will be used.",
           "default": "ghcr.io/joaofazolo/boca-docker/boca-jail:1.2"
         },
         {
           "name": "BOCA_DB_IMAGE",
           "label": "boca-db image",
-          "description": "Name of the PostgreSQL database image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "description": "Name of the PostgreSQL database image (e.g., myImage:myTag). If not specified, then the default value will be used.",
           "default": "postgres:14-alpine"
         },
         {

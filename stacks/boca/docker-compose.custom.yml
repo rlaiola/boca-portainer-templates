@@ -26,7 +26,7 @@ services:
     # web app
     boca-web:
         # reference image
-        image: ${BOCA_WEB_IMAGE:-ghcr.io/joaofazolo/boca-docker/boca-web:1.2}
+        image: "${BOCA_WEB_IMAGE:-ghcr.io/joaofazolo/boca-docker/boca-web:1.2}"
         depends_on:
             boca-db:
                 condition: service_healthy
@@ -70,7 +70,7 @@ services:
     # automated online judge (jail)
     boca-jail:
         # reference image
-        image: ${BOCA_JAIL_IMAGE:-ghcr.io/joaofazolo/boca-docker/boca-jail:1.2}
+        image: "${BOCA_JAIL_IMAGE:-ghcr.io/joaofazolo/boca-docker/boca-jail:1.2}"
         privileged: true
         depends_on:
             boca-db:
@@ -109,7 +109,7 @@ services:
     # database
     boca-db:
         # reference image
-        image: ${BOCA_DB_IMAGE:-postgres:14-alpine}
+        image: "${BOCA_DB_IMAGE:-postgres:14-alpine}"
         # api v3 Docker Compose file
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:
