@@ -26,7 +26,7 @@ services:
     # web app
     boca-web:
         # reference image
-        image: ghcr.io/joaofazolo/boca-docker/boca-web:1.2
+        image: ${BOCA_WEB_IMAGE:-ghcr.io/joaofazolo/boca-docker/boca-web:1.2}
         # IMPORTANT: this name MUST be used in traefik's routers service
         container_name: boca-web-${BOCA_TRAEFIK_UID:?error}
         depends_on:
@@ -85,7 +85,7 @@ services:
     # automated online judge (jail)
     boca-jail:
         # reference image
-        image: ghcr.io/joaofazolo/boca-docker/boca-jail:1.2
+        image: ${BOCA_JAIL_IMAGE:-ghcr.io/joaofazolo/boca-docker/boca-jail:1.2}
         privileged: true
         depends_on:
             boca-db:
@@ -124,7 +124,7 @@ services:
     # database
     boca-db:
         # reference image
-        image: postgres:14-alpine
+        image: ${BOCA_DB_IMAGE:-postgres:14-alpine}
         # api v3 Docker Compose file
         # https://docs.docker.com/compose/compose-file/compose-file-v3/#resources
         deploy:

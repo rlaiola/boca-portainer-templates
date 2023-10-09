@@ -40,6 +40,24 @@
       },
       "env": [
         {
+          "name": "BOCA_WEB_IMAGE",
+          "label": "boca-web image",
+          "description": "Name of the BOCA web app image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "default": "ghcr.io/joaofazolo/boca-docker/boca-web:1.2"
+        },
+        {
+          "name": "BOCA_JAIL_IMAGE",
+          "label": "boca-jail image",
+          "description": "Name of the BOCA automated online judge image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "default": "ghcr.io/joaofazolo/boca-docker/boca-jail:1.2"
+        },
+        {
+          "name": "BOCA_DB_IMAGE",
+          "label": "boca-db image",
+          "description": "Name of the PostgreSQL database image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "default": "postgres:14-alpine"
+        },
+        {
           "name": "BOCA_DB_SUPER_USER",
           "label": "Database superuser",
           "description": "Privileged user with full control of the PostgreSQL database server. If not specified, then the default value will be used.",
@@ -145,6 +163,24 @@
         "stackfile": "stacks/boca/docker-compose.traefik.custom.yml"
       },
       "env": [
+        {
+          "name": "BOCA_WEB_IMAGE",
+          "label": "boca-web image",
+          "description": "Name of the BOCA web app image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "default": "ghcr.io/joaofazolo/boca-docker/boca-web:1.2"
+        },
+        {
+          "name": "BOCA_JAIL_IMAGE",
+          "label": "boca-jail image",
+          "description": "Name of the BOCA automated online judge image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "default": "ghcr.io/joaofazolo/boca-docker/boca-jail:1.2"
+        },
+        {
+          "name": "BOCA_DB_IMAGE",
+          "label": "boca-db image",
+          "description": "Name of the PostgreSQL database image (e.g., my-image:my-tag). If not specified, then the default value will be used.",
+          "default": "postgres:14-alpine"
+        },
         {
           "name": "BOCA_DB_SUPER_USER",
           "label": "Database superuser",
