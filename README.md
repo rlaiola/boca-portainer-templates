@@ -18,7 +18,7 @@ docker run -p 9000:9000 \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -v portainer_data:/data \
            -d portainer/portainer-ce:alpine \
-           --templates https://raw.githubusercontent.com/rlaiola/portainer-templates/master/templates-2.0.json
+           --templates https://raw.githubusercontent.com/rlaiola/boca-portainer-templates/master/templates-2.0.json
 ```
 
 Templates are loaded once when Portainer is first started. If you already deployed a Portainer instance then decide to use these templates, you’ll need to clear the default templates either in the user interface or through the [HTTP API](https://app.swaggerhub.com/apis/portainer/portainer-ce/2.19.1).
