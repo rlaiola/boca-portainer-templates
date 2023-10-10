@@ -23,10 +23,47 @@ docker run -p 9000:9000 \
 
 Templates are loaded once when Portainer is first started. If you already deployed a Portainer instance then decide to use these templates, you’ll need to clear the default templates either in the user interface or through the [HTTP API](https://app.swaggerhub.com/apis/portainer/portainer-ce/2.19.1).
 
-## Result
+### Result
 
 ![Alt text](/images/boca/app-templates.png?raw=true "Portainer app templates list")
 
 ![Alt text](/images/boca/new-stack.png?raw=true "New BOCA stack from template")
 
 For more information on how to deploy a stack from a template, see the [documentation](https://docs.portainer.io/user/docker/templates/deploy-stack).
+
+## How To Contribute
+
+If you would like to help contribute to this project, please see [CONTRIBUTING](https://github.com/rlaiola/boca-portainer-templates/blob/master/CONTRIBUTING.md).
+
+Before submitting a PR consider building and testing a Docker image locally and checking your code with Super-Linter:
+
+  ```sh
+  docker run --rm \
+              -e RUN_LOCAL=true \
+              -e USE_FIND_ALGORITHM=true \
+              --env-file ".github/super-linter.env" \
+              -v "$PWD":/tmp/lint ghcr.io/github/super-linter:slim-v5
+  ```
+
+## License
+
+Copyright Universidade Federal do Espirito Santo (Ufes)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+This program is released under license GNU GPL v3+ license.
+
+## Support
+
+Please report any issues with _boca-portainer-templates_ at [https://github.com/rlaiola/boca-portainer-templates/issues](https://github.com/rlaiola/boca-portainer-templates/issues)
