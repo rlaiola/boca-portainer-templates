@@ -80,7 +80,7 @@ services:
             - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.tls.certresolver=http"
             - "traefik.http.routers.boca-web-${BOCA_TRAEFIK_UID:?error}-secure.service=boca-web-${BOCA_TRAEFIK_UID:?error}"
             - "traefik.http.services.boca-web-${BOCA_TRAEFIK_UID:?error}.loadbalancer.server.port=80"
-            - "traefik.docker.network=traefik-proxy"
+            - "traefik.docker.network=frontend"
 
     # automated online judge (jail)
     boca-jail:
