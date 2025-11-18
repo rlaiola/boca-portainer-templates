@@ -1,9 +1,9 @@
 # BOCA App Templates for Portainer
 
-This repository provides custom **App Templates** for deploying the **BOCA – Online Contest Administrator** through Portainer.  
+This repository provides custom **App Templates** that offer a simple and reproducible way to deploy **BOCA Online Contest Administrator** stacks through Portainer.
 It extends the official Portainer templates with ready-to-use definitions specifically tailored for BOCA, enabling quick and consistent deployments.
 
-For details on Portainer’s template system, refer to the official [documentation](https://docs.portainer.io/user/docker/templates).
+For details on Portainer’s template format, refer to the official [documentation](https://docs.portainer.io/user/docker/templates).
 For more information about BOCA, visit its upstream [repository](https://github.com/cassiopc/boca).
 
 ---
@@ -39,7 +39,7 @@ This repository provides:
 2. Locate the **App Templates** section.
 3. Set the template URL to:
 
-```url
+```text
 https://raw.githubusercontent.com/rlaiola/boca-portainer-templates/master/templates-2.0.json
 ```
 
@@ -47,7 +47,7 @@ https://raw.githubusercontent.com/rlaiola/boca-portainer-templates/master/templa
 
 4. Save the settings.
 
-You should now see BOCA templates available in the "App Templates" panel.
+You should now see BOCA templates available in the **Application Templates** panel.
 
 ### Using the [`--templates`](https://docs.portainer.io/advanced/cli#defining-your-own-app-templates) Flag
 
@@ -74,13 +74,13 @@ After clearing, templates will update to include BOCA options.
 
 ### Result
 
-Once configured, Portainer will display BOCA as a deployable app template.
+Once configured, Portainer will display BOCA in the Application templates list.
 
 Example:
 
 ![App templates screenshot](/images/boca/app-templates.png?raw=true)
 
-Using the "New Stack from Template" option, you can deploy BOCA with minimal configuration:
+Clicking the desired template option, you can deploy BOCA with minimal configuration:
 
 ![New BOCA stack screenshot](/images/boca/new-stack.png?raw=true)
 
