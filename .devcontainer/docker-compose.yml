@@ -1,0 +1,54 @@
+---
+#========================================================================
+# Copyright Universidade Federal do Espirito Santo (Ufes)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# This program is released under license GNU GPL v3+ license.
+#
+#========================================================================
+
+services:
+  boca-portainer-devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Mounts the workspace folder to /workspaces in the container.
+    volumes:
+      - ../..:/workspaces:cached
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+    # Runs app on the same network as the database container, allows
+    # "forwardPorts" in devcontainer.json
+    network_mode: host
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+  # Portainer: lightweight management UI which allows you to easily manage your
+  # Docker environments (Docker hosts or Swarm clusters).
+  portainer:
+    # reference image
+    image: portainer/portainer-ce:latest
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      # Mount Docker socket to allow Portainer to communicate with the Docker daemon
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Persist Portainer data
+      - portainer_data:/data
+    ports:
+      - 9000:9000
+
+volumes:
+  portainer_data:
+    driver: local
