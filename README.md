@@ -40,7 +40,7 @@ This repository provides:
 3. Set the template URL to:
 
 ```text
-https://raw.githubusercontent.com/rlaiola/boca-portainer-templates/master/templates-2.0.json
+https://raw.githubusercontent.com/rlaiola/boca-portainer-templates/main/templates-2.0.json
 ```
 
 ![Alt text](/images/boca/portainer-ui.png?raw=true 'Setting app templates via Portainer UI')
@@ -58,7 +58,7 @@ docker run -p 9000:9000 \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -v portainer_data:/data \
            -d portainer/portainer-ce:alpine \
-           --templates https://raw.githubusercontent.com/rlaiola/boca-portainer-templates/master/templates-2.0.json
+           --templates https://raw.githubusercontent.com/rlaiola/boca-portainer-templates/main/templates-2.0.json
 ```
 
 ### Refreshing Templates
