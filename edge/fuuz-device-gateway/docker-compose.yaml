@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  fuuz-gateway:
+    image: public.ecr.aws/n9a9v7z5/mfgx-native-app-device-gateway-server:latest
+    ports:
+    - 5500:5500
+    - 5501:5501
+    environment:
+      FUZE_API_KEY: {{FUUZ_API_KEY}}
+      FUUZ_GATEWAY_AUTO_UPDATE: {{FUUZ_GATEWAY_AUTO_UPDATE:-true}}
+      FUUZ_GATEWAY_LOG_LEVEL: {{FUUZ_GATEWAY_LOG_LEVEL}}
+      FUUZ_GATEWAY_LOG_RETENTION_DAYS: {{FUUZ_GATEWAY_LOG_RETENTION_DAYS:-30}}
+      FUUZ_GATEWAY_PORT: {{FUUZ_GATEWAY_PORT:-5500}}
+      FUUZ_GATEWAY_LISTEN_ADDRESS: {{FUUZ_GATEWAY_LISTEN_ADDRESS:-0.0.0.0}}
+    command: bash -c "./fuuzdevicegateway/fuuzdevicegateway"
+    volumes:
+    - /root:/root/.fuuzdevicegateway/
+    - /drivers:/fuuzdevicegateway/drivers/
+volumes:
+  root:
+  drivers:
